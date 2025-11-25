@@ -1,8 +1,10 @@
 from .plot_utils import (
     visualizaGrafoOriginal, 
-    visualizaGrafoCentralidade,
+    visualizaGrafoCentralidade, 
     visualizaKCore, 
-    visualizaCentralidadeProximidade,  
+    visualizaCentralidadeProximidade, 
+    visualizaVulnerabilidade, 
+    histogramaVulnerabilidade,
 )
 
 _all_ = [
@@ -10,4 +12,6 @@ _all_ = [
     'visualizaGrafoCentralidade',
     'visualizaKCore',
     'visualizaCentralidadeProximidade',
+    'visualizaVulnerabilidade',
+    'histogramaVulnerabilidade'
 ]

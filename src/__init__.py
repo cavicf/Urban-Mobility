@@ -13,6 +13,13 @@ from .accessibility_analysis import (
     classificaCentroPeriferia,
 )
 
+from .vulnerability_analysis import (
+    vulnerabilidade_rede,
+    eficiencia_global,
+    remover_aresta,
+    recolocar_aresta,
+)
+
 _all_ = [
     'carregaGrafo',
     'dijkstra',
@@ -21,4 +28,8 @@ _all_ = [
     'calculaCentralidadeProximidade',
     'calculaKCore',
     'classificaCentroPeriferia',
+    'vulnerabilidade_rede',
+    'eficiencia_global',
+    'remover_aresta',
+    'recolocar_aresta'
 ]
