@@ -12,12 +12,12 @@ def carregaGrafo(caminho_arquivo_arestas):
             for linha in f:
                 partes = linha.split()
 
-                no_origem = int(partes[1])
-                no_destino = int(partes[4])
-                peso_aresta = float(partes[7])
+                noOrigem = int(partes[1])
+                noDestino = int(partes[4])
+                pesoAresta = float(partes[7])
 
-                grafo[no_origem][no_destino] = peso_aresta
-                grafo[no_destino][no_origem] = peso_aresta
+                grafo[noOrigem][noDestino] = pesoAresta
+                grafo[noDestino][noOrigem] = pesoAresta
                 
     except FileNotFoundError:
         print(f"ERRO: Arquivo não encontrado no caminho: {caminho_arquivo_arestas}")
@@ -51,54 +51,54 @@ def carregaPosicoes(caminho_arquivo_arestas):
 #Função para encontrar o caminho mais curto, quantos caminhos curtos existem e quais são os ANTECESSORES em cada caminho curto
 def dijkstra(grafo, no_inicial):
 
-    Pilha_S = [] #Pilha que armazena os nós na ordem em que são visitados
+    pilha = [] #Pilha que armazena os nós na ordem em que são visitados
     
-    Antecessores = collections.defaultdict(set) #defaultdic: permite que acesse uma chave que não existe em um dicionário e crie um valor padrão para ela
+    antecesores = collections.defaultdict(set) #defaultdic: permite que acesse uma chave que não existe em um dicionário e crie um valor padrão para ela
     
-    Caminhos_Mais_Curtos = {no: 0 for no in grafo} 
+    caminhosMaisCurtos = {no: 0 for no in grafo} 
 
-    Distancia = {no: float('inf') for no in grafo} 
+    distancia = {no: float('inf') for no in grafo} 
     
 
-    Distancia[no_inicial] = 0.0
-    Caminhos_Mais_Curtos[no_inicial] = 1
+    distancia[no_inicial] = 0.0
+    caminhosMaisCurtos[no_inicial] = 1
 
-    Fila_Prioridade = [(0.0, no_inicial)] 
+    filaPrioridade = [(0.0, no_inicial)] 
 
-    while Fila_Prioridade:
-        dist_u, u = heapq.heappop(Fila_Prioridade)
+    while filaPrioridade:
+        dist, u = heapq.heappop(filaPrioridade)
         
-        if dist_u > Distancia[u]:
+        if dist > distancia[u]:
             continue
             
-        Pilha_S.append(u) 
+        pilha.append(u) 
 
-        for v, peso_aresta in grafo[u].items():
+        for v, pesoAresta in grafo[u].items():
             
-            nova_distancia = Distancia[u] + peso_aresta
+            novaDistancia = distancia[u] + pesoAresta
             
-            if nova_distancia < Distancia[v]:
-                Distancia[v] = nova_distancia
+            if novaDistancia < distancia[v]:
+                distancia[v] = novaDistancia
 
-                Caminhos_Mais_Curtos[v] = Caminhos_Mais_Curtos[u]
-                Antecessores[v] = {u}
-                heapq.heappush(Fila_Prioridade, (Distancia[v], v))
+                caminhosMaisCurtos[v] = caminhosMaisCurtos[u]
+                antecesores[v] = {u}
+                heapq.heappush(filaPrioridade, (distancia[v], v))
                 
-            elif nova_distancia == Distancia[v]:
-                Caminhos_Mais_Curtos[v] += Caminhos_Mais_Curtos[u]
-                Antecessores[v].add(u)
+            elif novaDistancia == distancia[v]:
+                caminhosMaisCurtos[v] += caminhosMaisCurtos[u]
+                antecesores[v].add(u)
             
             
-    return Pilha_S, Distancia, Antecessores, Caminhos_Mais_Curtos
+    return pilha, distancia, antecesores, caminhosMaisCurtos
 
 
 def grafo_networkx(grafo):
 
     G = nx.Graph() #Criando o grafo com networkx
     
-    for no_origem, vizinhos in grafo.items():
-        for no_destino, peso in vizinhos.items():
-            if no_origem < no_destino:
-                G.add_edge(no_origem, no_destino, weight=peso)
+    for noOrigem, vizinhos in grafo.items():
+        for noDestino, peso in vizinhos.items():
+            if noOrigem < noDestino:
+                G.add_edge(noOrigem, noDestino, weight=peso)
     
     return G
