@@ -214,3 +214,72 @@ def visualizaCentralidadeProximidade(grafo, centralidadesProximidade, pos, nomeA
     output_path = os.path.join('outputs', nomeArquivo)
     plt.savefig(output_path, format='pdf', bbox_inches='tight')
     plt.close()
+
+
+#Mapa de calor da vulnerabilidade das arestas da rede
+def visualizaVulnerabilidade(grafoNetworkx, listaVulnerabilidadeAresta, pos, nomeArquivo):    
+    dictVulnerabilidadeAresta = {}
+    for (noh_1, noh_2), vulnerabilidadeAresta in listaVulnerabilidadeAresta:
+        if grafoNetworkx.has_edge(noh_1, noh_2):
+            dictVulnerabilidadeAresta[(noh_1, noh_2)] = vulnerabilidadeAresta
+        elif grafoNetworkx.has_edge(noh_2, noh_1):
+            dictVulnerabilidadeAresta[(noh_2, noh_1)] = vulnerabilidadeAresta
+
+    edges = list(grafoNetworkx.edges())
+    
+    listaValoresVulnerabilidade = []
+    for (noh_1, noh_2) in edges:
+        val = dictVulnerabilidadeAresta.get((noh_1, noh_2), 0.0)
+        listaValoresVulnerabilidade.append(val)
+
+    fig, ax = plt.subplots(figsize=(10, 8))
+
+    nx.draw_networkx_nodes(
+        grafoNetworkx,
+        pos,
+        node_size=20,
+        node_color='lightgray',
+        ax=ax
+    )
+
+    #Coloracao arestas proporcional a vulnerabilidade
+    cmap_reds = plt.get_cmap('Reds')
+    edges_collection = nx.draw_networkx_edges(
+        grafoNetworkx,
+        pos,
+        edgelist=edges,
+        edge_color=listaValoresVulnerabilidade,
+        edge_cmap=cmap_reds,
+        width=2,
+        ax=ax
+    )
+
+    vMin = min(listaValoresVulnerabilidade)
+    vMax = max(listaValoresVulnerabilidade)
+    norm = mcolors.Normalize(vmin=vMin, vmax=vMax)
+    sm = cm.ScalarMappable(cmap=cmap_reds, norm=norm)
+    sm.set_array([])
+    plt.colorbar(sm, ax=ax, label='Vulnerabilidade da Aresta')
+    ax.axis('off')
+    ax.set_title('Mapa de Vulnerabilidade da Rede Viária de Brasília')
+    plt.tight_layout()
+    output_path = os.path.join('outputs', nomeArquivo)
+    plt.savefig(output_path, format='pdf', bbox_inches='tight')
+    plt.close()
+
+
+#Histograma para identificação da dispersão de vulnerabilidades na rede
+def histogramaVulnerabilidade(listaVulnerabilidadeAresta, nomeArquivo):
+    listaValoresVulnerabilidade = []
+    for (_, vulnerabilidadeAresta) in listaVulnerabilidadeAresta:
+        listaValoresVulnerabilidade.append(vulnerabilidadeAresta)
+
+    plt.figure(figsize=(8, 5))
+    plt.hist(listaValoresVulnerabilidade, bins=30, edgecolor='black')
+    plt.xlabel('Vulnerabilidade da Aresta')
+    plt.ylabel('Frequência')
+    plt.title('Distribuição das Vulnerabilidades de Arestas')
+    plt.tight_layout()
+    output_path = os.path.join('outputs', nomeArquivo)
+    plt.savefig(output_path, format='pdf', bbox_inches='tight')
+    plt.close()
