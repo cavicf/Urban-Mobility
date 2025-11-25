@@ -7,6 +7,7 @@ from src import (
     calculaCentralidadeProximidade,
     grafo_networkx,       
     vulnerabilidade_rede,
+    exportar_tabela_geral
 )
 
 from visualizations import (
@@ -82,6 +83,29 @@ def main():
 
     visualizaKCore(grafoNetworkx, classificacao, pos, '5_grafo_core_periphery.pdf')
     visualizaCentralidadeProximidade(grafoNetworkx, centralidadesProximidade, pos, '6_grafo_centralida_proximidade.pdf')
+
+    #Exportação da arquivo com todos os dados consolidados das analises feitas
+    todosNos = set(nosCentralizados.keys()) | set(centralidadesProximidade.keys()) | set(numerosCore.keys())
+    dadosNos = {}
+    
+    for n in todosNos:
+        dadosNos[n] = {
+            'betweenness': nosCentralizados.get(n, 0.0),
+            'closeness': centralidadesProximidade.get(n, 0.0),
+            'k_core': numerosCore.get(n, 0)
+        }
+    
+    dadosArestas = {}
+    for (u, v), val in listaVulnerabilidadeAresta:
+        dadosArestas[(u, v)] = val
+        
+    print("\nGerando arquivo CSV com dados consolidados...")
+    exportar_tabela_geral(
+        caminho_arquivo_original='data/brasilia_edge_info.txt',
+        dados_nos=dadosNos,
+        dados_arestas=dadosArestas,
+        nome_arquivo_saida='tabela_geral_dados.csv'
+    )
 
 if __name__ == "__main__":
     main()

@@ -20,6 +20,8 @@ from .vulnerability_analysis import (
     recolocar_aresta,
 )
 
+from .enriched_export_utils import exportar_tabela_geral
+
 _all_ = [
     'carregaGrafo',
     'dijkstra',
@@ -31,5 +33,6 @@ _all_ = [
     'vulnerabilidade_rede',
     'eficiencia_global',
     'remover_aresta',
-    'recolocar_aresta'
+    'recolocar_aresta',
+    'exportar_tabela_geral'
 ]
