@@ -7,9 +7,18 @@ from .grafo_utils import (
 
 from .betweenness_analysis import calculaCentralidade
 
+from .accessibility_analysis import (
+    calculaCentralidadeProximidade,
+    calculaKCore,
+    classificaCentroPeriferia,
+)
+
 _all_ = [
     'carregaGrafo',
     'dijkstra',
     'carregaPosicoes',
     'calculaCentralidade',
+    'calculaCentralidadeProximidade',
+    'calculaKCore',
+    'classificaCentroPeriferia',
 ]

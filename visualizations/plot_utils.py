@@ -128,3 +128,89 @@ def visualizaGrafoCentralidade(grafo, centralidade, pos, topDez, nomeArquivo):
     outPutPath = os.path.join('outputs', nomeArquivo)
     plt.savefig(outPutPath, format='pdf', bbox_inches='tight')
     plt.close()
+
+    #Grafo de core-periphery
+def visualizaKCore(grafo, classificacao, pos, nomeArquivo):
+    periferia = classificacao['nosPeriferia']
+    centro = classificacao['nosCentro']
+
+    fig, ax = plt.subplots(figsize=(20, 16))
+
+    nx.draw_networkx_edges(grafo, pos, alpha=0.5, width=1.2, edge_color='#474143', ax=ax)
+    nx.draw_networkx_nodes(
+        grafo, pos,
+        nodelist=periferia,
+        node_color='#FF6444',
+        node_size=200,
+        alpha=0.8,
+        linewidths=1.5,
+        label=f'Periferia',
+        ax=ax
+    )
+
+    nx.draw_networkx_nodes(
+        grafo, pos,
+        nodelist=centro,
+        node_color='#00ADA9',
+        node_size=300,
+        alpha=0.9,
+        linewidths=2,
+        label=f'Centro',
+        ax=ax
+    )
+
+    ax.legend(loc='upper right', fontsize=18, edgecolor='#474143', title='Classificação Core-Periphery',title_fontsize=18, markerscale=1.5, labelspacing=1.2, borderpad=1.2)
+    plt.title(f'Rede Viária de Brasília - Estrutura Core-Periphery\n', fontsize=24, weight='bold')
+    plt.axis('off')
+    plt.tight_layout()
+    output_path = os.path.join('outputs', nomeArquivo)
+    plt.savefig(output_path, format='pdf', bbox_inches='tight')
+    plt.close()
+
+#Mapa de calor da centralidade de proxmidade
+def visualizaCentralidadeProximidade(grafo, centralidadesProximidade, pos, nomeArquivo):
+    fig, ax = plt.subplots(figsize=(20, 16))    
+    centralidadeNos = []
+    for node in grafo.nodes():
+        centralidadeNos.append(centralidadesProximidade.get(node, 0))
+
+    maiorCentralidade = max(centralidadeNos)
+    nosDificilAcesso = []
+    for node in grafo.nodes():
+        valor = maiorCentralidade - centralidadesProximidade.get(node, 0)
+        nosDificilAcesso.append(valor)
+
+    minVal = min(nosDificilAcesso)
+    maxVal = max(nosDificilAcesso)
+    norm = mcolors.Normalize(vmin=minVal, vmax=maxVal)
+    cmap = plt.get_cmap('Purples') 
+    
+    node_sizes = []
+    for node in grafo.nodes():
+        dif = maiorCentralidade - centralidadesProximidade.get(node, 0)
+        tam = 100 + 300 * (dif / maiorCentralidade)
+        node_sizes.append(tam)
+    
+    nx.draw_networkx_edges(grafo, pos, alpha=0.5, width=1.2, edge_color='#474143', ax=ax)
+    nx.draw_networkx_nodes(
+        grafo, pos,
+        node_color=nosDificilAcesso,
+        node_size=node_sizes,
+        cmap=cmap,
+        alpha=0.8,
+        vmin=minVal,
+        vmax=maxVal,
+        ax=ax
+    )
+    
+    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+    sm.set_array([])
+    cbar = plt.colorbar(sm, ax=ax, fraction=0.046, pad=0.04)
+    cbar.set_label('Dificuldade de Acesso', fontsize=18, weight='bold', labelpad=20)
+    
+    plt.title(f'Rede Viária de Brasília - Análise de Acessibilidade\n', fontsize=24, weight='bold')
+    plt.axis('off')
+    plt.tight_layout() 
+    output_path = os.path.join('outputs', nomeArquivo)
+    plt.savefig(output_path, format='pdf', bbox_inches='tight')
+    plt.close()

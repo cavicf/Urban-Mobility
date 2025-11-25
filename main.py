@@ -2,12 +2,17 @@ from src import (
     carregaGrafo,
     carregaPosicoes,
     calculaCentralidade,
-    grafo_networkx   
+    grafo_networkx,
+    calculaKCore,
+    classificaCentroPeriferia,
+    calculaCentralidadeProximidade,   
 )
 
 from visualizations import (
     visualizaGrafoOriginal, 
-    visualizaGrafoCentralidade
+    visualizaGrafoCentralidade,
+    visualizaKCore,
+    visualizaCentralidadeProximidade,
 )
 
 
@@ -31,6 +36,20 @@ def main():
     print(f"Média de Centralidade de Betweenness: {mediaCentralidade}")
     print()
     visualizaGrafoCentralidade(grafoNetworkx, nosCentralizados, pos, 10, '2_grafo_centralidade_brasilia.pdf')
+
+    ###Análise de core-periphery e centralidade de proximidade, com visualização comparativa
+    numerosCore = calculaKCore(GRAFO)
+    classificacao = classificaCentroPeriferia(numerosCore)
+
+    print("Nós de Periferia:", classificacao['nosPeriferia'])
+    print("Nós de Centro:", classificacao['nosCentro'])
+    print()
+    centralidadesProximidade = calculaCentralidadeProximidade(GRAFO)
+    print("Centralidade de Proximidade dos Nós:")
+    print(centralidadesProximidade)
+
+    visualizaKCore(grafoNetworkx, classificacao, pos, '4_grafo_core_periphery.pdf')
+    visualizaCentralidadeProximidade(grafoNetworkx, centralidadesProximidade, pos, '5_grafo_centralida_proximidade.pdf')
 
 if __name__ == "__main__":
     main()
