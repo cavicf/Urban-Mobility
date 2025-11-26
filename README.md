@@ -4,6 +4,11 @@ Este repositório contém um estudo sobre a estrutura e o comportamento da rede 
 
 ---
 
+# Apresentação em Vídeo  
+Para uma explicação detalhada sobre o trabalho e seus resultados, assista à nossa apresentação em vídeo: [Apresentação em vídeo](https://youtu.be/9aEze6osuNE?si=1hyCjPnBq4rPMGNf)
+
+---
+
 ## Objetivos do Trabalho
 
 O estudo busca analisar a rede de Brasília a partir de métricas fundamentais de análise de redes complexas. As principais metas foram:
@@ -53,12 +58,15 @@ Esses pontos representam regiões especialmente críticas na malha urbana.
 ├── outputs/
 │   ├── 1_grafo_original_brasilia.pdf
 │   ├── 2_grafo_centralidade_brasilia.pdf
-│   ├── 3_grafo_comparacao_brasilia.pdf
-│   ├── 4_grafo_core_periphery.pdf
-│   ├── 5_grafo_centralidade_proximidade.pdf
-│   ├── 6_grafo_vulnerabilidade.pdf
-│   ├── 7_hist_vulnerabilidade.pdf
+│   ├── 3_grafo_core_periphery.pdf
+│   ├── 4_grafo_centralidade_proximidade.pdf
+│   ├── 5_grafo_vulnerabilidade.pdf
+│   ├── 6_hist_vulnerabilidade.pdf
+│   ├── tabela_geral_dados.csv
 │
+├── slides/
+│   ├── Planejamento Urbano e Mobilidade em Redes Viárias.pdf
+|
 ├── src/
 │   ├── accessibility_analysis.py
 │   ├── betweenness_analysis.py
@@ -69,6 +77,7 @@ Esses pontos representam regiões especialmente críticas na malha urbana.
 │   ├── plot_utils.py
 |
 ├── main.py
+├── ArtigoCientifico.pdf
 └── README.md
 ```
 
@@ -95,7 +104,8 @@ O script irá:
 - carregar os dados da rede,
 - realizar todos os cálculos,
 - gerar os grafos e figuras,
-- salvar as figuras dentro da pasta `ouputs/`.
+- salvar as figuras dentro da pasta `ouputs/`
+- gerar arquivo de síntese dos resultados na pasta `ouputs/`.
 
 ---
 
