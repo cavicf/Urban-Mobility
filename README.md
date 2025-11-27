@@ -5,7 +5,7 @@ Este repositório contém um estudo sobre a estrutura e o comportamento da rede 
 ---
 
 # Apresentação em Vídeo  
-Para uma explicação detalhada sobre o trabalho e seus resultados, assista à nossa apresentação em vídeo: [Apresentação em vídeo](https://youtu.be/9aEze6osuNE?si=1hyCjPnBq4rPMGNf)
+Para uma explicação detalhada sobre o trabalho e seus resultados, assista à nossa [apresentação em vídeo](https://youtu.be/9aEze6osuNE?si=1hyCjPnBq4rPMGNf)
 
 ---
 
